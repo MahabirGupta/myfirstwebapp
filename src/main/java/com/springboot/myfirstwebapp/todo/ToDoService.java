@@ -1,12 +1,16 @@
 package com.springboot.myfirstwebapp.todo;
 
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ToDoService {
 
     //    Create a ToDo list
-    private static List<ToDo> todos;
+    private static List<ToDo> todos = new ArrayList<>();
 
     //    If you want to initialse a static variable you need to create a static block
     static {

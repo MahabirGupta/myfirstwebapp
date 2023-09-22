@@ -27,7 +27,15 @@ public class LoginController {
 //        return "login"; //returning back the name of the JSP
 //    }
 
-//    login is handing both GET and POST request
+//    private AuthenticationService authenticationService = new AuthenticationService(); //if not using spring
+private AuthenticationService authenticationService;
+//    Use constructor injection
+
+    public LoginController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
+
+    //    login is handing both GET and POST request
     @RequestMapping(value="login",method= RequestMethod.GET)
     public String goToLogInPage(){
 
@@ -37,9 +45,18 @@ public class LoginController {
     @RequestMapping(value="login",method= RequestMethod.POST)
 //    login?name=Mahabir RequestParam
     public String goToWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model){
-        model.put("name",name);
-        model.put("password",password);
 
+        if (authenticationService.authentication(name,password)){
+
+        model.put("name",name);
+//        model.put("password",password);
+
+//        If a specific username and password is entered then it will go to welcome page - Authentication
+//        Valid username:Mahabir
+//        Valid password:anish143
         return "welcome";
+        }
+        model.put("errorMessage","Invalid Credentials! Please try again.");
+        return "login";
     }
 }

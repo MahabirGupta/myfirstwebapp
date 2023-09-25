@@ -8,20 +8,19 @@
 
 </head>
 <body>
-<div>Welcome ${name}</div>
-<hr>
+<div class="container">
 <h1>Your ToDos</h1>
 
-<table>
-      <thead>
+    <table class="table">
+          <thead>
             <tr>
             <th>id</th>
             <th>Description</th>
             <th>Target Date</th>
             <th>Completion Status</th>
             </tr>
-      </thead>
-      <tbody>
+          </thead>
+          <tbody>
             <c:forEach items="${todos}" var="todo">
             <tr>
                 <td>${todo.id}</td>
@@ -30,8 +29,9 @@
                 <td>${todo.completionStatus}</td>
             </tr>
             </c:forEach>
-      </tbody>
-</table>
+          </tbody>
+    </table>
+</div>
 
 <script src="webjars/bootstrap/5.1.3/js/bootstrap.min.js"></script>
 <script src="webjars/jquery/3.6.0/jquery.min.js"></script>

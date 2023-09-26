@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller //because it is a @Controller
@@ -30,19 +31,29 @@ public class ToDoController {
 
 //    GET request to get the list of courses
     @RequestMapping(value = "add-todo",method = RequestMethod.GET)
-    public String showNewToDoPage(){
-
-
+    public String showNewToDoPage(ModelMap model){
+        String username = (String) model.get("name");// model.get("name") will get the name of the user
+        ToDo toDo = new ToDo(0,username,"",LocalDate.now().plusYears(1),false);//creating a new todo and setting default values
+        model.put("todo",toDo);
         return "toDo";
     }
 
     //    POST request to send the new course
-    @RequestMapping(value = "add-todo",method = RequestMethod.POST)
-    public String addNewToDoCourse(){
-//        List<ToDo> todos=toDoService.findByUserName("Mahabir"); //not ideal solution because need to write duplicate codes
-//        model.addAttribute("todos",todos);
+//    @RequestMapping(value = "add-todo",method = RequestMethod.POST)
+//        public String addNewToDoCourse(@RequestParam String description,ModelMap model){
+//            String username = (String) model.get("name");// model.get("name") will get the name of the user
+//            toDoService.addToDo(username,description, LocalDate.now().plusYears(1),false);
+////        Do a redirect
+//            return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
+//    }
 
+//    Command Bean (Form Backing Object)
+    @RequestMapping(value = "add-todo",method = RequestMethod.POST)
+    public String addNewToDoCourse(ModelMap model,ToDo toDo){// Telling Spring MVC to bind directly to the todo bean
+        String username = (String) model.get("name");// model.get("name") will get the name of the user
+        toDoService.addToDo(username,toDo.getDescription(), LocalDate.now().plusYears(1),false);
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }
 }
+

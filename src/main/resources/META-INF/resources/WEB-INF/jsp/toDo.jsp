@@ -10,8 +10,9 @@
 <body>
     <div class="container">
     <h1>Enter ToDo Details</h1>
-    <form:form method="post" modelAttribute="todo">
+    <form:form method="post" modelAttribute="toDo">
         Description:<form:input type="text" path="description" required="required"/>
+        <form:errors path="description" cssClass="text-warning"/>
         <form:input type="hidden" path="id"/>
         <form:input type="hidden" path="completionStatus"/>
         <input type="submit" class="btn btn-success"/>

@@ -1,7 +1,9 @@
 package com.springboot.myfirstwebapp.todo;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,7 @@ public class ToDoController {
     public String showNewToDoPage(ModelMap model){
         String username = (String) model.get("name");// model.get("name") will get the name of the user
         ToDo toDo = new ToDo(0,username,"",LocalDate.now().plusYears(1),false);//creating a new todo and setting default values
-        model.put("todo",toDo);
+        model.put("toDo",toDo); // "toDo",toDo must be the same name as the object of ToDo
         return "toDo";
     }
 
@@ -49,7 +51,14 @@ public class ToDoController {
 
 //    Command Bean (Form Backing Object)
     @RequestMapping(value = "add-todo",method = RequestMethod.POST)
-    public String addNewToDoCourse(ModelMap model,ToDo toDo){// Telling Spring MVC to bind directly to the todo bean
+    public String addNewToDoCourse(ModelMap model, @Valid ToDo toDo, BindingResult result){// Telling Spring MVC to bind directly to the todo bean
+
+//        @Valid ToDo toDo will ensure that to-do bean is validated before the binding happens
+
+        if(result.hasErrors()){
+            return "toDo";
+        }
+
         String username = (String) model.get("name");// model.get("name") will get the name of the user
         toDoService.addToDo(username,toDo.getDescription(), LocalDate.now().plusYears(1),false);
 //        Do a redirect

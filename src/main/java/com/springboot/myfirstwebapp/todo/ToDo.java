@@ -1,5 +1,7 @@
 package com.springboot.myfirstwebapp.todo;
 
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 //Create a database to store all these details using MySQL,Oracle
@@ -7,7 +9,9 @@ import java.time.LocalDate;
 public class ToDo {
 
     private int id;
-    private String username,description;
+    private String username;
+    @Size(min = 10,message = "Enter at least 10 characters") // set minimum length of description
+    private String description;
     private LocalDate targetDate;
     private boolean completionStatus;
 

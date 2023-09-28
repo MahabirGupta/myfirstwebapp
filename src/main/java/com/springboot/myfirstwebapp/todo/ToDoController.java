@@ -64,5 +64,17 @@ public class ToDoController {
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }
+
+    //    delete a todo
+    @RequestMapping("delete-todo") //the url link
+    public String deleteToDo(@RequestParam int id){
+
+//        Delete todo with id
+//        Implement the logic in ToDoService to delete todo by Id
+        toDoService.deleteById(id);
+
+        return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
+
+    }
 }
 

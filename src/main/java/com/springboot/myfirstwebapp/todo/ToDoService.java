@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 @Service
 public class ToDoService {
@@ -36,5 +37,12 @@ public class ToDoService {
         ToDo toDo = new ToDo(++todosCount,username,description,targetDate,completionStatus);
         todos.add(toDo); //todos is an array list
 
+    }
+    public void deleteById(int id){
+
+//        delete only when todo.getId() == id
+//        name of bean todo -> todo.getId() == id // This is lambda expression
+        Predicate<? super ToDo> predicate = todo -> todo.getId() == id;
+        todos.removeIf(predicate);
     }
 }

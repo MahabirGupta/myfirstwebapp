@@ -76,5 +76,16 @@ public class ToDoController {
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
 
     }
+
+    @RequestMapping("update-todo") //the url link
+    public String showUpdateToDoPage(@RequestParam int id, ModelMap model){
+
+//        Delete todo with id
+//        Implement the logic in ToDoService to delete todo by Id
+        ToDo toDo = toDoService.findById(id);
+        model.addAttribute("toDo",toDo);
+        return "toDo"; // redirect the page to the list courses page url not jsp
+
+    }
 }
 

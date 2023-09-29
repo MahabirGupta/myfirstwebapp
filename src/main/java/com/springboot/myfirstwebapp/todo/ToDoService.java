@@ -21,7 +21,7 @@ public class ToDoService {
     //    If you want to initialse a static variable you need to create a static block
     static {
 // Everytime a new course will be added the todosCount will increase by 1
-        todos.add(new ToDo(++todosCount, "Mahabir", "Learn AWS", LocalDate.now().plusYears(1), false));
+        todos.add(new ToDo(++todosCount, "Mahabir", "Get AWS Certification", LocalDate.now().plusYears(1), false));
         todos.add(new ToDo(++todosCount, "Mahabir", "Learn DevOps", LocalDate.now().plusYears(2), false));
         todos.add(new ToDo(++todosCount, "Mahabir", "Learn Full Stack Development", LocalDate.now().plusYears(3), false));
 
@@ -51,5 +51,10 @@ public class ToDoService {
        ToDo toDo=todos.stream().filter(predicate).findFirst().get();
 
        return toDo;
+    }
+
+    public void updateToDo(ToDo toDo) {
+        deleteById(toDo.getId());
+        todos.add(toDo);
     }
 }

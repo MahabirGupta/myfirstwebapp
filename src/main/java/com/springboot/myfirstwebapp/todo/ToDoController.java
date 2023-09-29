@@ -60,7 +60,7 @@ public class ToDoController {
         }
 
         String username = (String) model.get("name");// model.get("name") will get the name of the user
-        toDoService.addToDo(username,toDo.getDescription(), LocalDate.now().plusYears(1),false);
+        toDoService.addToDo(username,toDo.getDescription(), toDo.getTargetDate(),false);
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }
@@ -77,7 +77,7 @@ public class ToDoController {
 
     }
 
-    @RequestMapping("update-todo") //the url link
+    @RequestMapping(value = "update-todo",method = RequestMethod.GET) //the url link
     public String showUpdateToDoPage(@RequestParam int id, ModelMap model){
 
 //        Delete todo with id
@@ -86,6 +86,23 @@ public class ToDoController {
         model.addAttribute("toDo",toDo);
         return "toDo"; // redirect the page to the list courses page url not jsp
 
+    }
+
+    //    Command Bean (Form Backing Object)
+    @RequestMapping(value = "update-todo",method = RequestMethod.POST)
+    public String updateToDoCourse(ModelMap model, @Valid ToDo toDo, BindingResult result){// Telling Spring MVC to bind directly to the todo bean
+
+//        @Valid ToDo toDo will ensure that toDo bean is validated before the binding happens
+
+        if(result.hasErrors()){
+            return "toDo";
+        }
+
+        String username = (String) model.get("name");// model.get("name") will get the name of the user
+        toDo.setUsername(username);
+        toDoService.updateToDo(toDo);
+//        Do a redirect
+        return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }
 }
 

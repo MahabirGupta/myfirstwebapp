@@ -1,17 +1,14 @@
 package com.springboot.myfirstwebapp.login;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("name") //want to put the "name" attributes
-public class LoginController {
+public class WelcomeController {
 
 //    private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -30,37 +27,38 @@ public class LoginController {
 //    }
 
 //    private AuthenticationService authenticationService = new AuthenticationService(); //if not using spring
-private AuthenticationService authenticationService;
-//    Use constructor injection
-
-    public LoginController(AuthenticationService authenticationService) {
-        this.authenticationService = authenticationService;
-    }
+//private AuthenticationService authenticationService;
+////    Use constructor injection
+//
+//    public LoginController(AuthenticationService authenticationService) {
+//        this.authenticationService = authenticationService;
+//    }
 
     //    login is handing both GET and POST request
-    @RequestMapping(value="login",method= RequestMethod.GET)
-    public String goToLogInPage(){
+    @RequestMapping(value="/",method= RequestMethod.GET)
+    public String goToWelcomePage(ModelMap model){
+        model.put("name","Mahabir");
 
-        return "login";
-    }
-
-    @RequestMapping(value="login",method= RequestMethod.POST)
-//    login?name=Mahabir RequestParam
-    public String goToWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model){
-
-        if (authenticationService.authentication(name,password)){
-
-        model.put("name",name);
-//        model.put("password",password);
-
-//        If a specific username and password is entered then it will go to welcome page - Authentication
-//        Valid username:Mahabir
-//        Valid password:anish143
         return "welcome";
-        }
-        model.put("errorMessage","Invalid Credentials! Please try again.");
-        return "login";
     }
+
+//    @RequestMapping(value="login",method= RequestMethod.POST)
+////    login?name=Mahabir RequestParam
+//    public String goToWelcomePage(@RequestParam String name, @RequestParam String password, ModelMap model){
+//
+//        if (authenticationService.authentication(name,password)){
+//
+//        model.put("name",name);
+////        model.put("password",password);
+//
+////        If a specific username and password is entered then it will go to welcome page - Authentication
+////        Valid username:Mahabir
+////        Valid password:anish143
+//        return "welcome";
+//        }
+//        model.put("errorMessage","Invalid Credentials! Please try again.");
+//        return "login";
+//    }
 
 
 }

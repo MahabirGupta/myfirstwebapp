@@ -5,7 +5,7 @@ package com.springboot.myfirstwebapp.login;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthenticationService {
+public class AuthenticationServiceNotRequired {
     public boolean authentication(String username,String password){
 
       boolean isValidUsername = username.equalsIgnoreCase("Mahabir");

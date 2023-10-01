@@ -1,6 +1,8 @@
 package com.springboot.myfirstwebapp.todo;
 
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -25,11 +27,13 @@ public class ToDoController {
     //    url is list-todos
     @RequestMapping("list-todos")
     public String listAllToDos(ModelMap model){
-       List<ToDo> todos=toDoService.findByUserName("Mahabir"); //return a list of ToDos
+        String username = (String) model.get("name");// model.get("name") will get the name of the user
+       List<ToDo> todos=toDoService.findByUserName(username); //return a list of ToDos
         model.addAttribute("todos",todos);
 
         return "listToDos"; //return a list of ToDos. Must be the same name as the jsp file
     }
+
 
 //    GET request to get the list of courses
     @RequestMapping(value = "add-todo",method = RequestMethod.GET)
@@ -103,6 +107,11 @@ public class ToDoController {
         toDoService.updateToDo(toDo);
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
+    }
+
+    private String getLoggedInUserName(ModelMap model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName(); //getting UserName
     }
 }
 

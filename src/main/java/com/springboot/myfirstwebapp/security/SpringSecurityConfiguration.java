@@ -25,15 +25,26 @@ public class SpringSecurityConfiguration {
     @Bean
     public InMemoryUserDetailsManager configureUserDetails(){
 //        UserDetails is an interface so cannot create an instance of it. Use User class instead
+
+//        String username = "Mahabir";
+
+        UserDetails userDetails1 = createNewUser("Mahabir","anish143");
+        UserDetails userDetails2 = createNewUser("Anish","anishkaa143");
+
+        return new InMemoryUserDetailsManager(userDetails1,userDetails2);
+    }
+
+    private UserDetails createNewUser(String username, String password) {
         Function<String, String> passwordEncoder = input -> passwordEncoder().encode(input); //lambda function
 
-        UserDetails userDetails =User.builder().passwordEncoder(passwordEncoder).username("Mahabir").password("anish143").roles("USER","ADMIN").build();
-        return new InMemoryUserDetailsManager(userDetails);
+        UserDetails userDetails =User.builder().passwordEncoder(passwordEncoder).username(username).password(password).roles("USER","ADMIN").build();
+        return userDetails;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder(){ // use PasswordEncoder passwordEncoder because withDefaultPasswordEncoder() is deprecated
         return new BCryptPasswordEncoder();
     }
+
 
 }

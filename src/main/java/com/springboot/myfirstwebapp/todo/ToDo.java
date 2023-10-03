@@ -1,13 +1,22 @@
 package com.springboot.myfirstwebapp.todo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
 //Create a database to store all these details using MySQL,Oracle
 //Create a Static List of ToDos then after that use a real database (H2, MySQL)
-public class ToDo {
+//JPA allows us to map the Bean -> DataBase Table by adding the annotation @Entity
 
+@Entity // By default the name of the Table is the same as Class Name (name = "ToDo ABC")
+public class ToDo { // Mapping the Todo Bean with a Table in the DataBase
+
+    //    Whenever you have an @Entity you need to define the Primary Key id
+    @Id
+    @GeneratedValue
     private int id;
     private String username;
     @Size(min = 10,message = "Enter at least 10 characters") // set minimum length of description
@@ -15,7 +24,10 @@ public class ToDo {
     private LocalDate targetDate;
     private boolean completionStatus;
 
-//    Create constructor
+    public ToDo() {
+    }
+
+    //    Create constructor
     public ToDo(int id, String username, String description, LocalDate targetDate, boolean completionStatus) {
         this.id = id;
         this.username = username;
@@ -24,7 +36,7 @@ public class ToDo {
         this.completionStatus = completionStatus;
     }
 
-//    Create getters and setters
+    //    Create getters and setters
     public int getId() {
         return id;
     }

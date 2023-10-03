@@ -63,10 +63,10 @@ public class SpringSecurityConfiguration {
         httpSecurity.formLogin(withDefaults());
 
         //    In order to access the H2 console we need to disable Cross-Site Request Forgery (CSRF)
-        httpSecurity.csrf().disable();
+        httpSecurity.csrf(csrf -> csrf.disable());
 
         //    H2 makes use of frames and Spring Security by default does not allow frames. In HTML you can also make use of frames
-        httpSecurity.headers().frameOptions().disable();
+        httpSecurity.headers(headers -> headers.frameOptions(frameOptionsConfig-> frameOptionsConfig.disable()));
 
         return httpSecurity.build();
     }

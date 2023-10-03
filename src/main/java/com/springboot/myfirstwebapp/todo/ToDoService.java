@@ -21,13 +21,13 @@ public class ToDoService {
     //    If you want to initialse a static variable you need to create a static block
     static {
 // Everytime a new course will be added the todosCount will increase by 1
-        todos.add(new ToDo(++todosCount, "Mahabir", "Get AWS Certification", LocalDate.now().plusYears(1), false));
-        todos.add(new ToDo(++todosCount, "Mahabir", "Learn DevOps", LocalDate.now().plusYears(2), false));
-        todos.add(new ToDo(++todosCount, "Mahabir", "Learn Full Stack Development", LocalDate.now().plusYears(3), false));
+        todos.add(new ToDo(++todosCount, "Mahabir", "Get AWS Certification 1", LocalDate.now().plusYears(1), false));
+        todos.add(new ToDo(++todosCount, "Mahabir", "Learn DevOps 1", LocalDate.now().plusYears(2), false));
+        todos.add(new ToDo(++todosCount, "Mahabir", "Learn Full Stack Development 1", LocalDate.now().plusYears(3), false));
 
     }
 
-    public List<ToDo> findByUserName(String userName){
+    public List<ToDo> findByUsername(String userName){
         Predicate<? super ToDo> predicate = todo -> todo.getUsername().equalsIgnoreCase(userName);
         return todos.stream().filter(predicate).toList(); //returns all the list of ToDo
     }

@@ -14,21 +14,30 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.time.LocalDate;
 import java.util.List;
 
-//@Controller //because it is a @Controller
+@Controller //because it is a @Controller
 @SessionAttributes("name")
-public class ToDoController {// Once @Controller has been commented out Spring framework will completely ignore the ToDoController
+public class ToDoControllerJpa {
 
     private ToDoService toDoService;
 
-    public ToDoController(ToDoService toDoService) {
+//    use JPA to communicate with the Table in H2 DataBase
+    private ToDoRepository toDoRepository;
+
+    public ToDoControllerJpa(ToDoService toDoService, ToDoRepository toDoRepository) {// to autowire ToDoRepository
+        super();
         this.toDoService = toDoService;
+        this.toDoRepository = toDoRepository;
     }
 
     //    url is list-todos
     @RequestMapping("list-todos")
     public String listAllToDos(ModelMap model){
         String username = (String) model.get("name");// model.get("name") will get the name of the user
-       List<ToDo> todos=toDoService.findByUsername(username); //return a list of ToDos
+
+        toDoRepository.getById(1); //to get the course from H2 DataBase
+        toDoRepository.deleteById(2); // to delete the course from H2 DataBase
+
+       List<ToDo> todos=toDoRepository.findByUsername(username); //return a list of ToDos
         model.addAttribute("todos",todos);
 
         return "listToDos"; //return a list of ToDos. Must be the same name as the jsp file
@@ -64,7 +73,9 @@ public class ToDoController {// Once @Controller has been commented out Spring f
         }
 
         String username = (String) model.get("name");// model.get("name") will get the name of the user
-        toDoService.addToDo(username,toDo.getDescription(), toDo.getTargetDate(),false);
+        toDo.setUsername(username);
+        toDoRepository.save(toDo);
+//        toDoService.addToDo(username,toDo.getDescription(), toDo.getTargetDate(),false);
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }

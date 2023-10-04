@@ -18,16 +18,20 @@ import java.util.List;
 @SessionAttributes("name")
 public class ToDoControllerJpa {
 
-    private ToDoService toDoService;
+//    private ToDoService toDoService;
 
 //    use JPA to communicate with the Table in H2 DataBase
     private ToDoRepository toDoRepository;
 
-    public ToDoControllerJpa(ToDoService toDoService, ToDoRepository toDoRepository) {// to autowire ToDoRepository
-        super();
-        this.toDoService = toDoService;
+    public ToDoControllerJpa(ToDoRepository toDoRepository) {
         this.toDoRepository = toDoRepository;
     }
+//   Not required
+//    public ToDoControllerJpa(ToDoService toDoService, ToDoRepository toDoRepository) {// to autowire ToDoRepository
+//        super();
+//        this.toDoService = toDoService;
+//        this.toDoRepository = toDoRepository;
+//    }
 
     //    url is list-todos
     @RequestMapping("list-todos")
@@ -74,8 +78,8 @@ public class ToDoControllerJpa {
 
         String username = (String) model.get("name");// model.get("name") will get the name of the user
         toDo.setUsername(username);
-        toDoRepository.save(toDo);
-//        toDoService.addToDo(username,toDo.getDescription(), toDo.getTargetDate(),false);
+        toDoRepository.save(toDo); // the save() method on the ToDoRepository will accept toDo as an input
+//        toDoService.addToDo(username,toDo.getDescription(), toDo.getTargetDate(), toDo.isCompletionStatus()); //not required because using toDoRepository
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }
@@ -85,8 +89,10 @@ public class ToDoControllerJpa {
     public String deleteToDo(@RequestParam int id){
 
 //        Delete todo with id
+        toDoRepository.deleteById(id);
+
 //        Implement the logic in ToDoService to delete todo by Id
-        toDoService.deleteById(id);
+//        toDoService.deleteById(id);
 
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
 
@@ -95,9 +101,9 @@ public class ToDoControllerJpa {
     @RequestMapping(value = "update-todo",method = RequestMethod.GET) //the url link
     public String showUpdateToDoPage(@RequestParam int id, ModelMap model){
 
-//        Delete todo with id
-//        Implement the logic in ToDoService to delete todo by Id
-        ToDo toDo = toDoService.findById(id);
+        ToDo toDo = toDoRepository.findById(id).get();// findById returns an optional. From the optional to get a todo need to use .get()
+
+//        ToDo toDo = toDoService.findById(id);
         model.addAttribute("toDo",toDo);
         return "toDo"; // redirect the page to the list courses page url not jsp
 
@@ -115,7 +121,9 @@ public class ToDoControllerJpa {
 
         String username = (String) model.get("name");// model.get("name") will get the name of the user
         toDo.setUsername(username);
-        toDoService.updateToDo(toDo);
+        toDoRepository.save(toDo);
+
+//        toDoService.updateToDo(toDo);
 //        Do a redirect
         return "redirect:list-todos"; // redirect the page to the list courses page url not jsp
     }
